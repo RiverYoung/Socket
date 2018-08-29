@@ -17,9 +17,9 @@ int main(int argc,char *argv[])
     int sockfd,numbytes;
     char buf[BUFSIZ];
     struct sockaddr_in their_addr;
-    printf("break!");
+
     while((sockfd = socket(AF_INET,SOCK_STREAM,0)) == -1);
-    printf("We get the sockfd~\n");
+    printf("We get the sockfd!\n");
     their_addr.sin_family = AF_INET;
     their_addr.sin_port = htons(8000);
     their_addr.sin_addr.s_addr=inet_addr("127.0.0.1");
@@ -29,7 +29,7 @@ int main(int argc,char *argv[])
 
 	
     while(connect(sockfd,(struct sockaddr*)&their_addr,sizeof(struct sockaddr)) == -1);
-    printf("Get the Server~Cheers!\n");
+    printf("Get the Server!\n");
     numbytes = recv(sockfd, buf, BUFSIZ,0);
     buf[numbytes]='\0';  
     printf("Server filename = %s\n",buf); //服务端传过来的文件名
@@ -59,26 +59,6 @@ int main(int argc,char *argv[])
 	    }
    		printf("Wrote %d bytes to the file.\n", res);
 	    close(fp); 
-		
-		//char *ptr = buf;
-//		if(numbytes > 0)
-//		{
-//		 	/* int fd_tmp = open("/workteam/yangjianghe/data/work/learnSocket/client/socketTest9.txt",O_WRONLY|O_CREAT);
-//			int writeByte = write(fd_tmp,buf,sizeof(buf));
-//			printf("writeByte = %d\n",writeByte);
-//			close(fd_tmp);   */
-//			
-//		 	int fp = open(filePath,O_CREAT,0777);
-//			int n = 0;
-//			int len = 0;
-//			char *ptr = buf;
-//			while((n = write(fp,ptr+len,(strlen(ptr)-len))) != 0)
-//			{
-//				len += n;
-//			} 
-//			close(fp); 
-//		}
-     
     }
 	
     close(sockfd);
