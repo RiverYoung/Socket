@@ -1,0 +1,52 @@
+#include <cstring>
+//查找U盘下特定文件是否存在
+bool mFindFileName(char *name)
+{
+	char filePath[80];
+	char dirPath[80];
+	memset(dirPath, 0, 80);
+	memset(filePath, 0, 80);
+    DIR *dir_1 = NULL;
+	DIR *dir_2 = NULL;
+	int len =strlen(name);
+	struct dirent *dirconnt =NULL;
+	struct dirent *dirconnt_2 =NULL;
+	dir_1 = opendir("/mnt/usb/");
+	//strcat(filePath,"/mnt/usb/");
+	strcat(dirPath,"/mnt/usb/");
+	if(NULL == dir_1)
+	{
+		return false;
+	}
+	while(NULL != (dirconnt=readdir(dir_1)))
+	{
+	   if(dirconnt->d_name[0] == '.')
+	   {
+			continue;
+	   }
+	   //strcat(filePath,dirconnt->d_name);
+	   strcat(dirPath,dirconnt->d_name);
+	   memset(filePath, 0, 80);
+	   memset(mfilePath_tmp, 0, 80);
+	   sprintf(filePath,"%s",name);
+	   sprintf(mfilePath_tmp,"%s/%s",dirPath,name);
+	   dir_2 = opendir(dirPath);
+	   if(NULL == dir_2)
+	   {
+	   		continue;
+	   }
+	   while(NULL != (dirconnt_2=readdir(dir_2)))
+	   {	    
+	   	  if(strncmp(filePath,dirconnt_2->d_name,len) == 0)
+	   	  {
+	   	    closedir(dir_1);
+		    closedir(dir_2);
+	   	  	return true;
+	   	  }
+	   }
+	   
+	}
+	 closedir(dir_1);
+     closedir(dir_2);
+	return false;
+}
